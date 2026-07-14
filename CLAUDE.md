@@ -94,12 +94,15 @@ export class SomeController {
 }
 ```
 
+For mixed public/private routes, split into separate controllers or use method-level `@AuthAccess()` on a controller without class-level decorator.
+
 ### Auth Access (`@AuthAccess`)
 - `src/middlewares/auth-access.ts` — JWT verification middleware (used internally)
 - `@AuthAccess()` decorator from `src/lib/decorators/` protects routes
 - Can be applied at class level (all routes) or method level (single route)
-- Protected routes get `c.set('user', { sub })` from JWT
-- Use `getUser(c)` helper to read user — returns `{ sub: string } | undefined`
+- Protected routes get `c.set('user', { sub, email })` from JWT
+- Use `getUser(c)` helper to read user — returns `{ sub: string; email?: string } | undefined`
+- `email` is embedded in JWT at sign-in/sign-up (no DB query on every request)
 - Applied automatically by `registerControllers()` when `@AuthAccess()` is used
 - Routes without `@AuthAccess()` are public by default (no path-based `app.use()` needed)
 
@@ -136,7 +139,7 @@ export class SomeController {
 - Use constructor injection to mock dependencies (preferred)
 - Or `mock.module()` for module-level mocks (use in `beforeAll` with dynamic `import()`)
 - Services: mock repository layer, test business logic
-- Controllers: mock BFF service via `mock.module()`, use `app.request()`
+- Controllers: inject mock BFF service via constructor, use `app.request()`
 - **100% line coverage required** — run `bun test --coverage` before every push
 
 ### Response Format
@@ -146,9 +149,10 @@ All API responses follow `BaseResponse`:
 ```
 
 ### Bruno API Collection
-- Located in `bruno/collections/{AUTH,SYSTEM}/`
+- Located in `bruno/collections/{AUTH,SYSTEM,ACCOUNTS}/`
 - Auth: SIGN_UP, SIGN_IN (auto-saves TOKEN to env), ME (uses `{{TOKEN}}`)
 - System: PING
+- Accounts: LIST (paginated, uses `{{TOKEN}}`)
 - Environment: `bruno/environments/dev.yml` with `URL=http://localhost:8888/api`
 
 ## Environment Variables
