@@ -67,8 +67,8 @@ export type NewEntity = InferInsertModel<typeof EntityName>
 ### Controller Pattern
 ```typescript
 import { Context } from 'hono'
-import { Controller, Get, Post } from '../../libs/decorators'
-import { ResponseHelper } from '../../libs/response-helper'
+import { Controller, Get, Post } from '../../lib/decorators'
+import { ResponseHelper } from '../../lib/response-helper'
 
 @Controller()
 export class SomeController {
@@ -84,12 +84,13 @@ export class SomeController {
 - Throw errors in services, caught by global `errorHandler`
 - Never catch errors in controllers unless adding context
 
-### Testing
+### Testing (TDD Required)
+- **Write tests first** — define expected behavior before implementation
 - Every folder must have `__test__/` with corresponding test files
 - Use constructor injection to mock dependencies
 - Services: mock repository layer, test business logic
 - Controllers: use `app.request()` to test endpoints
-- Aim for 80%+ coverage
+- **100% line coverage required** — run `bun test --coverage` before every push
 
 ### Response Format
 All API responses follow `BaseResponse`:

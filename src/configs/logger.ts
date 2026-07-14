@@ -23,11 +23,11 @@ const ansiPattern = new RegExp(
   '[\\u001b\\u009b][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d/#&.:=?%@~_]*)*)?\\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))',
   'g',
 )
-const stripAnsi = (s: string) => String(s).replace(ansiPattern, '')
+export const stripAnsi = (s: string) => String(s).replace(ansiPattern, '')
 
-const pad = (s: string, n = 7) => s.padEnd(n).slice(0, n)
+export const pad = (s: string, n = 7) => s.padEnd(n).slice(0, n)
 
-const devFormat = winston.format.combine(
+export const devFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
   winston.format.colorize({ all: true }),
   winston.format.printf(({ timestamp, level, message, ...meta }: Record<string, unknown>) => {
@@ -57,36 +57,42 @@ const devFormat = winston.format.combine(
   }),
 )
 
-const prodFormat = winston.format.combine(
+export const prodFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
   winston.format.errors({ stack: true }),
   winston.format.json(),
 )
 
-const transports: winston.transport[] = [
-  new winston.transports.Console({
-    level: env.LOG_LEVEL,
-    format: env.APP_ENV === 'production' ? prodFormat : devFormat,
-  }),
-]
+export function createTransports(appEnv: string, logLevel: string): winston.transport[] {
+  const transports: winston.transport[] = [
+    new winston.transports.Console({
+      level: logLevel,
+      format: appEnv === 'production' ? prodFormat : devFormat,
+    }),
+  ]
 
-if (env.APP_ENV !== 'dev') {
-  transports.push(
-    new winston.transports.File({
-      filename: 'logs/error.log',
-      level: 'error',
-      format: prodFormat,
-      maxsize: 10 * 1024 * 1024,
-      maxFiles: 10,
-    }),
-    new winston.transports.File({
-      filename: 'logs/combined.log',
-      format: prodFormat,
-      maxsize: 10 * 1024 * 1024,
-      maxFiles: 10,
-    }),
-  )
+  if (appEnv !== 'dev') {
+    transports.push(
+      new winston.transports.File({
+        filename: 'logs/error.log',
+        level: 'error',
+        format: prodFormat,
+        maxsize: 10 * 1024 * 1024,
+        maxFiles: 10,
+      }),
+      new winston.transports.File({
+        filename: 'logs/combined.log',
+        format: prodFormat,
+        maxsize: 10 * 1024 * 1024,
+        maxFiles: 10,
+      }),
+    )
+  }
+
+  return transports
 }
+
+const transports = createTransports(env.APP_ENV, env.LOG_LEVEL)
 
 export const logger = winston.createLogger({
   level: env.LOG_LEVEL,
@@ -96,6 +102,8 @@ export const logger = winston.createLogger({
 })
 
 export class LoggerStream {
+  constructor() {}
+
   write(message: string) {
     logger.http(message.trim())
   }

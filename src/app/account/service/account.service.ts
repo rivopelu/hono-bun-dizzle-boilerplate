@@ -3,7 +3,7 @@ import type { Account } from '../entity/account.entity'
 import type { CreateAccountInput } from '../types/account.types'
 
 export class AccountService {
-  constructor(private repository = new AccountRepository()) {}
+  constructor(private repository: AccountRepository = new AccountRepository()) {}
 
   async findByEmail(email: string): Promise<Account | null> {
     return this.repository.findByEmail(email)

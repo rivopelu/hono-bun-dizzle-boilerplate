@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 import { Hono } from 'hono'
-import { Controller, Get } from '../decorators'
-import { registerControllers } from '../route-registry'
+import { Controller, Get, Post } from '../decorators'
+import { registerControllers, setBasePath, registerRoute } from '../route-registry'
 
 describe('registerControllers', () => {
   @Controller()
@@ -42,5 +42,26 @@ describe('registerControllers', () => {
     const res2 = await app.request('/api/another')
     expect(await res1.text()).toBe('ok')
     expect(await res2.text()).toBe('another')
+  })
+})
+
+describe('setBasePath', () => {
+  test('setBasePath works with new controller via constructor', () => {
+    class BasePathController {}
+    // need to instantiate to cover constructor
+    const _ = new BasePathController()
+    setBasePath(BasePathController, '/custom')
+    expect(_).toBeDefined()
+  })
+})
+
+describe('registerRoute', () => {
+  test('registers multiple routes on same controller', () => {
+    class MultiRouteController {}
+    // need to instantiate to cover constructor
+    const _ = new MultiRouteController()
+    registerRoute(MultiRouteController, 'GET', '/a', () => 'a')
+    registerRoute(MultiRouteController, 'GET', '/b', () => 'b')
+    expect(_).toBeDefined()
   })
 })

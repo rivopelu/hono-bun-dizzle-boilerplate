@@ -6,6 +6,10 @@
 - Domain services in `app/*/service/` must NOT import from `bff/`
 - BFF services can import from both `app/` and `bff/`
 
+## Repository Pattern
+- Accept `db` via constructor with default: `constructor(private db: NodePgDatabase = defaultDb) {}`
+- This enables mocking in tests without `mock.module`
+
 ## Dependency Injection
 - Services accept dependencies via constructor with default parameters
 - Example: `constructor(private repo = new Repository()) {}`

@@ -23,14 +23,12 @@ describe('AccountService', () => {
       findByEmail: (email: string) => Promise<Account | null>
       findById: (id: string) => Promise<Account | null>
       insert: (input: any) => Promise<Account>
-      update: (id: string, input: any) => Promise<Account>
     }>,
   ) {
     const mockRepo = {
       findByEmail: stubs.findByEmail ?? (async () => null),
       findById: stubs.findById ?? (async () => null),
       insert: stubs.insert ?? (async (input) => ({ ...mockAccount, ...input })),
-      update: stubs.update ?? (async (id, input) => ({ ...mockAccount, ...input })),
     } as any
     return new AccountService(mockRepo)
   }
@@ -71,5 +69,22 @@ describe('AccountService', () => {
     expect(result.email).toBe('new@example.com')
     expect(result.name).toBe('New User')
     expect(insert).toHaveBeenCalledTimes(1)
+  })
+
+  test('findById uses default null when no stub', async () => {
+    const service = createService({})
+    const result = await service.findById('any')
+    expect(result).toBeNull()
+  })
+
+  test('create uses default insert when no insert stub', async () => {
+    const service = createService({ findByEmail: async () => null })
+    const result = await service.create({
+      email: 'default@example.com',
+      name: 'Default',
+      password: 'pw',
+      created_by: 'test',
+    })
+    expect(result.email).toBe('default@example.com')
   })
 })

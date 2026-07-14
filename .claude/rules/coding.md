@@ -29,8 +29,10 @@
 - Public methods return Promises
 - Private helper methods for internal logic
 
-## Testing
+## Testing (TDD)
+- **Write tests before implementation** — define expected behavior first
 - Test files: `__test__/<name>.test.ts`
 - Use `describe`/`test` from `bun:test`
 - Mock external dependencies with constructor injection
 - Test happy path + error cases
+- **100% line coverage required** — run `bun test --coverage` and verify no uncovered lines

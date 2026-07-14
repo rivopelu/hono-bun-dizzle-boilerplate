@@ -10,6 +10,3 @@ export const SignInRequestSchema = z.object({
   email: z.email({ message: 'Invalid email format' }),
   password: z.string().min(1, { message: 'Password is required' }),
 })
-
-export type SignUpRequest = z.infer<typeof SignUpRequestSchema>
-export type SignInRequest = z.infer<typeof SignInRequestSchema>

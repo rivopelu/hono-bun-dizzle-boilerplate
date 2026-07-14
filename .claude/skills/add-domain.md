@@ -17,10 +17,11 @@ Use this skill when creating a new domain module in `src/app/`.
    - Define `pgTable` with `...entityId`, domain columns, `...baseEntity`
    - Export `<Domain>Entity`, `type <Domain> = InferSelectModel<>`, `type New<Domain> = InferInsertModel<>`
 
-3. Create repository `repository/<domain>.repository.ts`:
-   - Import `db` from `configs/database.config`
-   - Implement CRUD methods using Drizzle queries
-   - Use `eq()` for WHERE clauses
+ 3. Create repository `repository/<domain>.repository.ts`:
+    - Import `db as defaultDb` from `configs/database.config`
+    - Accept `db` via constructor with default: `constructor(private db: NodePgDatabase = defaultDb) {}`
+    - Implement CRUD methods using `this.db`
+    - Use `eq()` for WHERE clauses
 
 4. Create service `service/<domain>.service.ts`:
    - Accept repository via constructor

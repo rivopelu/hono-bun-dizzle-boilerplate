@@ -1,15 +1,15 @@
 import { BaseResponse } from '../bff/types/response/base-response'
 
-export class ResponseHelper {
-  static success(message?: string): BaseResponse<null> {
+export const ResponseHelper = {
+  success(message?: string): BaseResponse<null> {
     return { success: true, message: message || 'ok' }
-  }
+  },
 
-  static data<T>(data: T, message: string = 'success'): BaseResponse<T> {
+  data<T>(data: T, message: string = 'success'): BaseResponse<T> {
     return { success: true, message, response_data: data }
-  }
+  },
 
-  static paginated<T>(
+  paginated<T>(
     data: T,
     paginatedData: {
       page: number
@@ -28,9 +28,9 @@ export class ResponseHelper {
         page_count: Math.ceil(paginatedData.totalData / paginatedData.size),
       },
     }
-  }
+  },
 
-  static error(message: string, status?: number, errors?: unknown): BaseResponse<null> {
+  error(message: string, status?: number, errors?: unknown): BaseResponse<null> {
     return { success: false, message, errors }
-  }
+  },
 }

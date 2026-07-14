@@ -8,6 +8,7 @@ import { requestLogger } from './middlewares/request-logger'
 import { errorHandler } from './configs/error-handler'
 import { systemController } from './bff/controllers/system.controller'
 import { authController } from './bff/controllers/auth.controller'
+import { renderHome } from './views/home'
 
 const app = new Hono()
 
@@ -15,8 +16,16 @@ app.use('*', cors(corsConfig))
 app.use('*', requestLogger())
 app.use('*', secureHeaders())
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+app.get('/favicon.ico', (c) => {
+  const file = Bun.file('public/logo.svg')
+  return new Response(file, {
+    headers: { 'Content-Type': 'image/svg+xml' },
+  })
+})
+
+app.get('/', async (c) => {
+  const svg = await Bun.file('public/logo.svg').text()
+  return c.html(renderHome({ appName: env.APP_NAME, appEnv: env.APP_ENV, port: env.PORT, svg }))
 })
 
 app.onError(errorHandler)

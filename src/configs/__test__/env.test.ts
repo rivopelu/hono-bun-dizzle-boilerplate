@@ -1,14 +1,7 @@
-import { describe, expect, test } from 'bun:test'
-import { z } from 'zod'
+import { describe, expect, test, mock } from 'bun:test'
+import { envSchema, validateEnv } from '../env'
 
-const envSchema = z.object({
-  PORT: z.coerce.number().default(8888),
-  APP_ENV: z.enum(['dev', 'staging', 'production']).default('dev'),
-  API_PREFIX: z.string().default('/api'),
-  LOG_LEVEL: z.string().default('debug'),
-})
-
-describe('env schema validation', () => {
+describe('env schema', () => {
   test('applies default values when env vars are missing', () => {
     const parsed = envSchema.safeParse({})
     expect(parsed.success).toBe(true)
@@ -40,17 +33,28 @@ describe('env schema validation', () => {
     expect(parsed.success).toBe(false)
   })
 
-  test('coerces PORT from string', () => {
-    const parsed = envSchema.safeParse({ PORT: '8080' })
-    expect(parsed.success).toBe(true)
-    if (!parsed.success) return
-    expect(parsed.data.PORT).toBe(8080)
-  })
-
-  test('API_PREFIX defaults to /api', () => {
+  test('JWT and bcrypt defaults', () => {
     const parsed = envSchema.safeParse({})
     expect(parsed.success).toBe(true)
     if (!parsed.success) return
-    expect(parsed.data.API_PREFIX).toBe('/api')
+    expect(parsed.data.JWT_SECRET).toBe('dev-secret-change-in-production')
+    expect(parsed.data.BCRYPT_ROUNDS).toBe(10)
+    expect(parsed.data.JWT_ISSUER).toBe('reel-cut')
+  })
+
+  test('validateEnv throws on invalid APP_ENV', () => {
+    const exitMock = mock((_code?: number) => {
+      throw new Error('exit')
+    })
+    const origExit = process.exit
+    process.exit = exitMock as any
+
+    const saved = process.env.APP_ENV
+    process.env.APP_ENV = 'INVALID_VALUE'
+
+    expect(() => validateEnv()).toThrow('exit')
+
+    process.env.APP_ENV = saved
+    process.exit = origExit
   })
 })

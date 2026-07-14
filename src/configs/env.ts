@@ -1,8 +1,9 @@
 import { z } from 'zod'
 
-const envSchema = z.object({
+export const envSchema = z.object({
   PORT: z.coerce.number().default(8888),
   APP_ENV: z.enum(['dev', 'staging', 'production']).default('dev'),
+  APP_NAME: z.string().default('hono-boilerplate'),
   API_PREFIX: z.string().default('/api'),
   LOG_LEVEL: z.string().default('debug'),
   DB_HOST: z.string().default('localhost'),
@@ -15,12 +16,14 @@ const envSchema = z.object({
   JWT_ISSUER: z.string().default('reel-cut'),
 })
 
-const parsed = envSchema.safeParse(process.env)
-
-if (!parsed.success) {
-  console.error('Invalid environment variables:')
-  console.error(parsed.error.issues)
-  process.exit(1)
+export function validateEnv() {
+  const parsed = envSchema.safeParse(process.env)
+  if (!parsed.success) {
+    console.error('Invalid environment variables:')
+    console.error(parsed.error.issues)
+    process.exit(1)
+  }
+  return parsed.data
 }
 
-export const env = parsed.data
+export const env = validateEnv()
