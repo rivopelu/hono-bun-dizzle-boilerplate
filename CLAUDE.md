@@ -99,16 +99,16 @@ All API responses follow `BaseResponse`:
 ```
 
 ## Available Scripts
-| Script | Description |
-|--------|-------------|
-| `dev` | Start dev server with hot reload |
-| `lint` | Run ESLint |
-| `lint:fix` | Fix lint errors |
-| `format` | Check Prettier formatting |
-| `format:fix` | Format with Prettier |
-| `typecheck` | tsc --noEmit |
-| `test` | Run all tests |
-| `test:coverage` | Run tests with coverage report |
-| `db:generate` | Generate Drizzle migrations |
-| `db:migrate` | Run Drizzle migrations |
-| `db:studio` | Open Drizzle Studio |
+| Script          | Description                      |
+|-----------------|----------------------------------|
+| `dev`           | Start dev server with hot reload |
+| `lint`          | Run ESLint                       |
+| `lint:fix`      | Fix lint errors                  |
+| `format`        | Check Prettier formatting        |
+| `format:fix`    | Format with Prettier             |
+| `typecheck`     | tsc --noEmit                     |
+| `test`          | Run all tests                    |
+| `test:coverage` | Run tests with coverage report   |
+| `db:generate`   | Generate Drizzle migrations      |
+| `db:migrate`    | Run Drizzle migrations           |
+| `db:studio`     | Open Drizzle Studio              |

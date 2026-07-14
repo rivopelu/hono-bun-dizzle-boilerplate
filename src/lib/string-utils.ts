@@ -1,5 +1,5 @@
 export function generateId(): string {
-  return crypto.randomUUID().split('-').join('').toUpperCase()
+  return crypto.randomUUID().split('-').join('')
 }
 
 export function generateRandomPassword(length: number = 5): string {
@@ -13,7 +13,7 @@ export function generateRandomPassword(length: number = 5): string {
 }
 
 export function generateProfilePicture(name: string): string {
-  return `https://ui-avatars.com/api/?name=${name}&background=random`
+  return `https://ui-avatars.com/api/?name=${name}&background=gray`
 }
 
 export function generateVehicleName(
