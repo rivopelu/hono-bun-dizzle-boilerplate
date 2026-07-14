@@ -32,7 +32,25 @@ src/
 └── middlewares/            # Hono middlewares
 ```
 
-## Getting Started
+## Quick Start (New Project)
+
+```bash
+# Clone as a new project (no git history)
+bun create github:rivopelu/hono-bun-dizzle-boilerplate my-project
+cd my-project
+
+# Copy environment variables
+cp .env.example .env
+
+# Generate and run migrations
+bun run db:generate
+bun run db:migrate
+
+# Start dev server
+bun run dev
+```
+
+## Getting Started (Existing Clone)
 
 ```bash
 # Install dependencies
