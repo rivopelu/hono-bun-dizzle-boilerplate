@@ -9,6 +9,7 @@ import { errorHandler } from './configs/error-handler'
 import { systemController } from './bff/controllers/system.controller'
 import { authController } from './bff/controllers/auth.controller'
 import { renderHome } from './views/home'
+import { detectLocale } from './lib/i18n'
 
 const app = new Hono()
 
@@ -25,7 +26,10 @@ app.get('/favicon.ico', (c) => {
 
 app.get('/', async (c) => {
   const svg = await Bun.file('public/logo.svg').text()
-  return c.html(renderHome({ appName: env.APP_NAME, appEnv: env.APP_ENV, port: env.PORT, svg }))
+  const locale = detectLocale(c.req.header('Accept-Language'))
+  return c.html(
+    renderHome({ appName: env.APP_NAME, appEnv: env.APP_ENV, port: env.PORT, svg, locale }),
+  )
 })
 
 app.onError(errorHandler)

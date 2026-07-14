@@ -186,28 +186,28 @@
     </div>
 
     <h1>{{appName}}</h1>
-    <p class="subtitle">API Service</p>
+    <p class="subtitle">{{subtitle}}</p>
 
     <div class="divider"></div>
 
     <div class="health">
       <span class="dot"></span>
-      <span class="health-label">All systems operational</span>
+      <span class="health-label">{{health}}</span>
     </div>
 
     <div class="stats">
       <div class="stat">
-        <div class="stat-label">Environment</div>
+        <div class="stat-label">{{labelEnv}}</div>
         <span class="stat-value env">{{appEnv}}</span>
       </div>
       <div class="stat">
-        <div class="stat-label">Port</div>
+        <div class="stat-label">{{labelPort}}</div>
         <div class="stat-value">{{port}}</div>
       </div>
     </div>
 
     <p class="footer">
-      Server time &middot; <time>{{serverTime}}</time>
+      {{labelServerTime}} &middot; <time>{{serverTime}}</time>
     </p>
   </div>
 </body>
