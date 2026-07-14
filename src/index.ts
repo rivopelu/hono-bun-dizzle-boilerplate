@@ -12,7 +12,6 @@ import { accountController } from './bff/controllers/account.controller'
 import { renderHome } from './views/home'
 import { detectLocale } from './lib/i18n'
 import { logger } from './configs/logger'
-import { authMiddleware } from './middlewares/auth'
 import { pool } from './configs/database.config'
 
 const app = new Hono()
@@ -20,7 +19,11 @@ const app = new Hono()
 app.use('*', cors(corsConfig))
 app.use('*', requestLogger())
 app.use('*', secureHeaders())
-app.use('/api/auth/*', authMiddleware())
+registerControllers(
+  app,
+  [systemController, authController, accountController],
+  env.API_PREFIX as string,
+)
 
 app.get('/favicon.ico', (_c) => {
   const file = Bun.file('public/logo.svg')
@@ -38,8 +41,6 @@ app.get('/', async (c) => {
 })
 
 app.onError(errorHandler)
-
-registerControllers(app, [systemController, authController], env.API_PREFIX as string)
 
 const server = Bun.serve({
   fetch: app.fetch,

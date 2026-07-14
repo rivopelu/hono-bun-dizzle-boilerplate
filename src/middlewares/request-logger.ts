@@ -1,6 +1,7 @@
 import type { MiddlewareHandler } from 'hono'
 import { logger } from '../configs/logger'
 import { env } from '../configs/env'
+import { getUser } from '../lib/get-user'
 
 export function requestLogger(): MiddlewareHandler {
   return async (c, next) => {
@@ -21,6 +22,8 @@ export function requestLogger(): MiddlewareHandler {
 
     const duration = Date.now() - start
     const { status } = c.res
+    const user = getUser(c)
+    const userLabel = user?.email ?? user?.sub ?? 'anon'
 
     const logMeta = {
       requestId,
@@ -28,6 +31,7 @@ export function requestLogger(): MiddlewareHandler {
       path,
       status,
       duration: `${duration}ms`,
+      user: userLabel,
       ip,
       userAgent: userAgent.slice(0, 120),
       ...(referer ? { referer } : {}),

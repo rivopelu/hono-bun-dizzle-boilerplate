@@ -25,7 +25,7 @@ export class AuthService {
       created_by: input.email,
     })
 
-    const token = await this.signToken(account.id)
+    const token = await this.signToken(account.id, account.email)
 
     return {
       access_token: token,
@@ -53,7 +53,7 @@ export class AuthService {
       throw new Error('Invalid email or password')
     }
 
-    const token = await this.signToken(account.id)
+    const token = await this.signToken(account.id, account.email)
 
     return {
       access_token: token,
@@ -79,10 +79,10 @@ export class AuthService {
     }
   }
 
-  private async signToken(sub: string): Promise<string> {
+  private async signToken(sub: string, email: string): Promise<string> {
     const secret = new TextEncoder().encode(env.JWT_SECRET)
 
-    return new SignJWT({ sub })
+    return new SignJWT({ sub, email })
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
       .setIssuer(env.JWT_ISSUER)

@@ -1,5 +1,5 @@
 import { Context } from 'hono'
-import { Controller, Post, Get } from '../../lib/decorators'
+import { Controller, Post, Get, AuthAccess } from '../../lib/decorators'
 import { ResponseHelper } from '../../lib/response-helper'
 import { AuthBffService } from '../services/auth-bff.service'
 import { UnauthorizedError } from '../../configs/exception'
@@ -25,6 +25,7 @@ export class AuthController {
   }
 
   @Get('/auth/me')
+  @AuthAccess()
   async me(c: Context) {
     const user = getUser(c)
     if (!user) throw new UnauthorizedError()

@@ -1,3 +1,5 @@
+import type { PaginationQuery, PaginatedResult } from '../../../lib/pagination'
+
 export interface CreateAccountInput {
   email: string
   name: string
@@ -6,22 +8,15 @@ export interface CreateAccountInput {
   created_by: string
 }
 
-export interface AccountListQuery {
-  page?: number
-  size?: number
-  q?: string
-  sort?: string
-  order?: 'asc' | 'desc'
+export type AccountListQuery = PaginationQuery
+
+export interface AccountItem {
+  id: string
+  email: string
+  name: string
+  profile_picture: string | null
+  active: boolean
+  created_date: number
 }
 
-export interface AccountListResult {
-  items: Array<{
-    id: string
-    email: string
-    name: string
-    profile_picture: string | null
-    active: boolean
-    created_date: number
-  }>
-  total: number
-}
+export type AccountListResult = PaginatedResult<AccountItem>

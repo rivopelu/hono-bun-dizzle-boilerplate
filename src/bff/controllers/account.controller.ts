@@ -1,12 +1,13 @@
 import { Context } from 'hono'
-import { Controller, Get } from '../../lib/decorators'
+import { Controller, Get, AuthAccess } from '../../lib/decorators'
 import { ResponseHelper } from '../../lib/response-helper'
 import { getPagination } from '../../lib/get-pagination'
 import { AccountBffService } from '../services/account-bff.service'
 
 @Controller()
+@AuthAccess()
 export class AccountController {
-  private accountBffService = new AccountBffService()
+  constructor(private accountBffService: AccountBffService = new AccountBffService()) {}
 
   @Get('/accounts')
   async list(c: Context) {

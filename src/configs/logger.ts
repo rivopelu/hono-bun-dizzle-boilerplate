@@ -37,6 +37,7 @@ export const devFormat = winston.format.combine(
 
     if (m.requestId) {
       const ip = m.ip === 'unknown' ? '' : m.ip
+      const user = m.user ? `[${m.user}]` : ''
       const ua = m.userAgent
         ? m.userAgent.length > 60
           ? m.userAgent.slice(0, 57) + '...'
@@ -44,7 +45,7 @@ export const devFormat = winston.format.combine(
         : ''
       const ref = m.referer ?? ''
       return [
-        `${ts} ${tag} ${message}`,
+        `${ts} ${tag} ${message} ${user}`,
         `  ├─ ${m.requestId}${ip ? ` · ${ip}` : ''}`,
         ua || ref ? `  └─ ${ua}${ref ? ` · ref: ${ref}` : ''}` : '',
       ]
