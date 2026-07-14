@@ -69,19 +69,19 @@ bun run dev
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| `dev` | Start dev server with hot reload |
-| `lint` | Run ESLint |
-| `lint:fix` | Fix lint errors |
-| `format` | Check Prettier formatting |
-| `format:fix` | Format with Prettier |
-| `typecheck` | TypeScript type checking |
-| `test` | Run tests |
-| `test:coverage` | Run tests with coverage report |
-| `db:generate` | Generate Drizzle migrations |
-| `db:migrate` | Run Drizzle migrations |
-| `db:studio` | Open Drizzle Studio |
+| Script          | Description                      |
+|-----------------|----------------------------------|
+| `dev`           | Start dev server with hot reload |
+| `lint`          | Run ESLint                       |
+| `lint:fix`      | Fix lint errors                  |
+| `format`        | Check Prettier formatting        |
+| `format:fix`    | Format with Prettier             |
+| `typecheck`     | TypeScript type checking         |
+| `test`          | Run tests                        |
+| `test:coverage` | Run tests with coverage report   |
+| `db:generate`   | Generate Drizzle migrations      |
+| `db:migrate`    | Run Drizzle migrations           |
+| `db:studio`     | Open Drizzle Studio              |
 
 ## Commit Hooks
 
