@@ -2,7 +2,7 @@ import { Context } from 'hono'
 import { Controller, Post } from '../../lib/decorators'
 import { ResponseHelper } from '../../lib/response-helper'
 import { AuthBffService } from '../services/auth-bff.service'
-import { SignUpRequestSchema, SignInRequestSchema } from '../../types/request/auth.request'
+import { SignUpRequestSchema, SignInRequestSchema } from '../types/request/auth.request'
 
 @Controller()
 export class AuthController {

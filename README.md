@@ -25,12 +25,11 @@ src/
 ├── bff/
 │   ├── controllers/        # Route handlers
 │   ├── services/           # BFF services
+│   ├── types/request/      # Request validation schemas (Zod)
 │   └── types/response/     # Response type definitions
 ├── configs/                # App configuration (env, db, logger, errors)
-├── lib/                    # Shared utilities (base entity, string utils)
-├── libs/                   # Shared libs (decorators, response-helper)
-├── middlewares/            # Hono middlewares
-└── types/request/          # Request validation schemas
+├── lib/                    # Shared utilities (base entity, string utils, decorators)
+└── middlewares/            # Hono middlewares
 ```
 
 ## Getting Started
