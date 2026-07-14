@@ -1,6 +1,10 @@
 import { AccountRepository } from '../repository/account.repository'
 import type { Account } from '../entity/account.entity'
-import type { CreateAccountInput } from '../types/account.types'
+import type {
+  CreateAccountInput,
+  AccountListQuery,
+  AccountListResult,
+} from '../types/account.types'
 
 export class AccountService {
   constructor(private repository: AccountRepository = new AccountRepository()) {}
@@ -11,6 +15,10 @@ export class AccountService {
 
   async findById(id: string): Promise<Account | null> {
     return this.repository.findById(id)
+  }
+
+  async list(query: AccountListQuery): Promise<AccountListResult> {
+    return this.repository.findAll(query)
   }
 
   async create(data: CreateAccountInput): Promise<Account> {
