@@ -1,0 +1,33 @@
+info:
+  name: APPROVE_KYC
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{URL}}/admin/kyc/:id/approve"
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Admin Approve KYC (Admin POV)
+
+  Menyetujui pengajuan KYC. Status user akan berubah menjadi APPROVED
+  dan `kyc_verification_status` di tabel account akan diupdate.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT Admin)
+  - `x-app-mode: sandbox | production`
+
+  ## Path Parameters
+  - `id`: ID KYC record

@@ -1,0 +1,41 @@
+info:
+  name: GET_LIST_KYC
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{URL}}/admin/kyc?status=&q="
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  params:
+    - name: status
+      value: ""
+      type: query
+    - name: q
+      value: ""
+      type: query
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Admin KYC List (Admin POV)
+
+  Mengembalikan daftar seluruh pengajuan KYC dari semua user,
+  diurutkan dengan status PENDING terlebih dahulu.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT Admin)
+  - `x-app-mode: sandbox | production`
+
+  ## Query Parameters
+  - `status`: filter status (`PENDING`, `APPROVED`, `REJECTED`)
+  - `q`: pencarian by NIK atau nama KTP

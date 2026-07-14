@@ -1,0 +1,4 @@
+name: PRODUCTION
+variables:
+  - name: URL
+    value: https://cdn.zelpay.site/api

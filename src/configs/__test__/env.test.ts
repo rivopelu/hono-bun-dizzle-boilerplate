@@ -40,6 +40,7 @@ describe('env schema', () => {
     expect(parsed.data.JWT_SECRET).toBe('dev-secret-change-in-production')
     expect(parsed.data.BCRYPT_ROUNDS).toBe(10)
     expect(parsed.data.JWT_ISSUER).toBe('reel-cut')
+    expect(parsed.data.ALLOWED_ORIGINS).toBe('*')
   })
 
   test('validateEnv throws on invalid APP_ENV', () => {

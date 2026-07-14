@@ -1,0 +1,51 @@
+info:
+  name: reveal api key
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{URL}}/merchant/:merchantId/api-key/reveal"
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  params:
+    - name: merchantId
+      value: 3ef0b4d18c1a44dc9fe11c9c7583f7d8
+      type: path
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Reveal API Key (Internal User POV)
+
+  Menampilkan API key **utuh** milik merchant untuk mode aktif (`x-app-mode`). Dipakai
+  oleh tombol "lihat API key" di detail merchant. Key utuh diperoleh dengan mendekripsi
+  nilai terenkripsi (AES) yang tersimpan. Hanya pemilik merchant yang boleh; selainnya → 403.
+
+  Jika belum ada API key aktif untuk mode tersebut → 404.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT user)
+  - `x-app-mode: sandbox | production`
+
+  ## Contoh Response (200)
+  ```json
+  {
+    "success": true,
+    "message": "ok",
+    "response_data": {
+      "id": "ak_01hxyz...",
+      "environment": "SANDBOX",
+      "api_key": "zp_test_a1b2c3d4e5f6...wxyz",
+      "masked": "zp_test_a1b2c3d4••••••••wxyz"
+    }
+  }
+  ```

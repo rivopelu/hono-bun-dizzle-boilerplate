@@ -1,0 +1,54 @@
+info:
+  name: GET_LIST_TRANSACTIONS
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{URL}}/admin/transactions?status=&q=&type=&page=&size=5"
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  params:
+    - name: status
+      value: ""
+      type: query
+    - name: q
+      value: ""
+      type: query
+    - name: type
+      value: ""
+      type: query
+    - name: page
+      value: ""
+      type: query
+    - name: size
+      value: "5"
+      type: query
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Admin Transaction List (Admin POV)
+
+  Mengembalikan daftar transaksi terbaru dari **seluruh user** pada mode aktif (`x-app-mode`),
+  diurutkan dari yang paling baru (`created_date` desc). Tiap item menyertakan `user_id`
+  pemilik transaksi.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT Admin)
+  - `x-app-mode: sandbox | production`
+
+  ## Query Parameters
+  - `status`: filter status (`PENDING`, `AWAITING_PAYMENT`, `SUCCESS`, `FAILED`, `EXPIRED`, `CANCELLED`)
+  - `q`: pencarian by transaction_code / payment_ref / id
+  - `type`: filter tipe (`TOPUP`, `TRANSFER`, `PAYMENT`, `WITHDRAW`)
+  - `page`: nomor halaman (default 0)
+  - `size`: jumlah item per halaman (default 20)

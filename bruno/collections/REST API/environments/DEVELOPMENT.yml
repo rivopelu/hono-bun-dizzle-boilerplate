@@ -1,0 +1,12 @@
+name: DEVELOPMENT
+variables:
+  - name: URL
+    value: http://localhost:8076/api
+  - name: TOKEN
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMWE5OTI3MTAwMzg0YmE5YTE1YTNkYzZjYzI2YjJmYSIsImV4cCI6MTc4MDI0ODgzNn0.LVNrsY8UYrbwccYg_fFPp23G8hUDWBrXzG_IifmbYec
+  - name: SANDBOX_MODE
+    value: sandbox
+  - name: PRODUCTION_MODE
+    value: production
+  - name: SCHEDULER_API_KEY
+    value: zelpay_scheduler_secret_2026_change_me

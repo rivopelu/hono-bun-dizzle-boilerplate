@@ -1,0 +1,30 @@
+info:
+  name: GET_LIST_MERCHANTS
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{URL}}/admin/merchants?q=&page=&size="
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  params:
+    - name: q
+      value: ""
+      type: query
+    - name: page
+      value: ""
+      type: query
+    - name: size
+      value: ""
+      type: query
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

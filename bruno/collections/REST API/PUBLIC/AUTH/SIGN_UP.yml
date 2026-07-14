@@ -1,0 +1,24 @@
+info:
+  name: SIGN UP
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{URL}}/v1/public/auth/sign-up"
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Rivo Pelu",
+          "email": "rivopelu@gmail.com",
+          "password": "@Rivopelu123",
+          "confirmation_password": "@Rivopelu123"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

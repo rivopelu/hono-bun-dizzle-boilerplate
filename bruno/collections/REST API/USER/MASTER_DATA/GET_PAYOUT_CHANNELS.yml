@@ -1,0 +1,69 @@
+info:
+  name: GET_PAYOUT_CHANNELS
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{URL}}/master-data/payout-channels"
+  params:
+    - name: type
+      value: BANK
+      type: query
+      disabled: true
+    - name: status
+      value: ACTIVE
+      type: query
+      disabled: true
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # List Payout Channels (Master Data)
+
+  Mengembalikan daftar payout channel (Bank & E-Wallet) untuk dipilih user
+  saat penarikan dana. Data master bersifat global (tidak tergantung mode).
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT user)
+
+  ## Query Params (opsional)
+  - `type` — `BANK` | `EWALLET`. Filter berdasarkan jenis saluran.
+  - `status` — `ACTIVE` | `INACTIVE`. Default `ACTIVE` (hanya saluran aktif).
+
+  ## Contoh Response (200)
+  ```json
+  {
+    "success": true,
+    "message": "Success retrieve payout channels",
+    "response_data": [
+      {
+        "id": "pch_01HABC...",
+        "code": "BCA",
+        "name": "Bank Central Asia",
+        "type": "BANK",
+        "logo_url": null,
+        "status": "ACTIVE"
+      },
+      {
+        "id": "pch_01HDEF...",
+        "code": "DANA",
+        "name": "DANA",
+        "type": "EWALLET",
+        "logo_url": null,
+        "status": "ACTIVE"
+      }
+    ]
+  }
+  ```
+
+  ## Catatan
+  - Tanpa query `status`, hanya channel `ACTIVE` yang dikembalikan.
+  - Urutan: berdasarkan `type` lalu `name` (ascending).

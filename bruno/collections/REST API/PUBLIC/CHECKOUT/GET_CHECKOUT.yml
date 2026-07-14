@@ -1,0 +1,64 @@
+info:
+  name: GET_CHECKOUT
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{URL}}/checkout/:transactionId"
+  params:
+    - name: transactionId
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Public Checkout Detail
+
+  Mengembalikan detail transaksi berdasarkan `transactionId` (UUID) untuk keperluan checkout page publik, tanpa membutuhkan autentikasi JWT.
+
+  ## Path Parameters
+  - `transactionId`: UUID transaksi (mis. `clxyz123...`)
+
+  ## Contoh Response (200)
+  ```json
+  {
+    "success": true,
+    "message": "Berhasil mengambil data checkout",
+    "response_data": {
+      "id": "clxyz123...",
+      "transaction_code": "TX-PAY-20260605-0001",
+      "merchant_name": "Test Merchant",
+      "merchant_logo": "T",
+      "amount": 50000,
+      "fee": 700,
+      "total_amount": 50700,
+      "description": "Pembayaran Tagihan",
+      "payment_ref": "pay_ref_123",
+      "qr_string": "000201010212260017ID...",
+      "status": "PENDING",
+      "time_left": 899,
+      "expired_date": 1780610500000,
+      "amount_detail": {
+        "amount": 50000,
+        "total_amount": 50700
+      },
+      "fee_breakdown": [
+        {
+          "name": "Biaya Transaksi",
+          "description": "Biaya layanan",
+          "type": "PERCENTAGE",
+          "rate": "0.7%",
+          "amount": 700,
+          "direction": "INCREASE"
+        }
+      ]
+    }
+  }
+  ```

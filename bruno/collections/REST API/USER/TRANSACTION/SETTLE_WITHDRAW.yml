@@ -1,0 +1,45 @@
+info:
+  name: SETTLE_WITHDRAW
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{URL}}/transactions/:transactionId/settle"
+  headers:
+    - name: x-app-mode
+      value: "{{SANDBOX_MODE}}"
+  params:
+    - name: transactionId
+      value: 435c9dd67d344afba3f393cdd245a2d2
+      type: path
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Settle Withdraw (Internal User POV)
+
+  Menyelesaikan transaksi `WITHDRAW` berstatus `PENDING` milik user menjadi `SUCCESS`
+  (simulasi sandbox; di produksi seharusnya dipicu oleh callback provider payout).
+
+  Saldo sudah ditahan saat penarikan dibuat, jadi langkah ini hanya mengubah status
+  dan mengisi `paid_at` — tidak memotong saldo lagi.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT user)
+  - `x-app-mode: sandbox | production`
+
+  ## Response (200)
+  ```json
+  {
+    "success": true,
+    "message": "Withdraw settled successfully"
+  }
+  ```

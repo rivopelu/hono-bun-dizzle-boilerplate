@@ -1,0 +1,26 @@
+info:
+  name: TOP_UP
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: ""
+  headers:
+    - name: x-app-mode
+      value: production
+  body:
+    type: json
+    data: |
+      {
+        "amount" : 200001
+      }
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

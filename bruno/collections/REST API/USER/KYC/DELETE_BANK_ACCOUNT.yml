@@ -1,0 +1,28 @@
+info:
+  name: DELETE_BANK_ACCOUNT
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: "{{URL}}/bank-accounts/:id"
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Delete Bank Account (User POV)
+
+  Menghapus (soft delete) bank account milik user.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT User)
+
+  ## Path Parameters
+  - `id`: ID bank account

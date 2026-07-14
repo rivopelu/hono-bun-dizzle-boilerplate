@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { Hono } from 'hono'
+import { z } from 'zod'
 import { errorHandler } from '../error-handler'
 import {
   BadRequestError,
@@ -95,5 +96,21 @@ describe('errorHandler', () => {
     expect(res.status).toBe(500)
     const body = await res.json()
     expect(body.message).toBe('Internal Server Error')
+  })
+
+  test('handles ZodError as 422 with structured errors', async () => {
+    const app = createApp()
+    const schema = z.object({ email: z.string().email() })
+    app.get('/test', (_c) => {
+      const result = schema.safeParse({ email: 'invalid' })
+      if (!result.success) throw result.error
+      return new Response('ok')
+    })
+    const res = await app.request('/test')
+    expect(res.status).toBe(422)
+    const body = await res.json()
+    expect(body.message).toBe('Validation failed')
+    expect(body.errors).toBeDefined()
+    expect(body.errors[0].path).toBe('email')
   })
 })

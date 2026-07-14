@@ -1,0 +1,23 @@
+info:
+  name: GET_MONEY_IN_CHART
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: "{{URL}}/admin/analytics/money-in-chart"
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+  params:
+    - name: period
+      value: WEEKLY
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

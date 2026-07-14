@@ -1,0 +1,7 @@
+info:
+  name: MENU ITEM
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit

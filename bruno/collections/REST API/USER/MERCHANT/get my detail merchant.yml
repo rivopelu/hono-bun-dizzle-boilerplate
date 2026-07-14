@@ -1,0 +1,101 @@
+info:
+  name: get my detail merchant
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{URL}}/merchant/:id"
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  params:
+    - name: id
+      value: 3ef0b4d18c1a44dc9fe11c9c7583f7d8
+      type: path
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Detail Merchant (Internal User POV)
+
+  Mengembalikan detail satu merchant milik user **beserta `summary`** transaksi yang
+  masuk ke merchant tersebut untuk mode aktif (`x-app-mode`). Hanya pemilik merchant
+  (account yang sama) yang boleh mengakses; selainnya → 403.
+
+  Ringkasan (`summary`) dihitung **melalui Analytics Service** (bukan query langsung ke
+  tabel transaksi), diagregasi dari transaksi ber-`merchant_id` = merchant ini & `mode`.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT user)
+  - `x-app-mode: sandbox | production`
+
+  ## Contoh Response (200)
+  ```json
+  {
+    "success": true,
+    "message": "ok",
+    "response_data": {
+      "id": "3ef0b4d18c1a44dc9fe11c9c7583f7d8",
+      "name": "default",
+      "merchant_code": "MCH-20260604-0001",
+      "description": "auto generated from zelpay",
+      "created_date": 1717500000000,
+      "status": "ACTIVE",
+      "summary": {
+        "mode": "SANDBOX",
+        "balance": 1030253,
+        "total_money_in": 1150500,
+        "total_money_out": 50000,
+        "net_flow": 1100500,
+        "total_transactions": 8,
+        "status_breakdown": {
+          "PENDING": 2,
+          "AWAITING_PAYMENT": 0,
+          "SUCCESS": 5,
+          "FAILED": 0,
+          "EXPIRED": 0,
+          "CANCELLED": 1
+        }
+      },
+      "api_key": {
+        "id": "ak_01hxyz...",
+        "environment": "SANDBOX",
+        "prefix": "zp_test_a1b2c3d4",
+        "masked": "zp_test_a1b2c3d4••••••••wxyz",
+        "last_four": "wxyz",
+        "status": "ACTIVE",
+        "created_date": 1717500000000
+      },
+      "webhook_key": {
+        "id": "whk_01hxyz...",
+        "environment": "SANDBOX",
+        "prefix": "whsec_a1b2c3d4",
+        "masked": "whsec_a1b2c3d4••••••••wxyz",
+        "last_four": "wxyz",
+        "status": "ACTIVE",
+        "created_date": 1717500000000
+      }
+    }
+  }
+  ```
+
+  ## Catatan `api_key` & `webhook_key`
+  - `api_key` adalah API key **aktif** untuk mode aktif (`x-app-mode`); `null` jika belum di-generate. Dipakai client untuk autentikasi ke External Merchant API (`/api/v1/...`).
+  - `webhook_key` adalah webhook signing secret **aktif** untuk mode aktif; `null` jika belum di-generate. Dipakai untuk memverifikasi webhook yang ZelPay kirim ke endpoint user.
+  - `masked` menampilkan prefix + `••••••••` + 4 digit terakhir (nilai utuh tidak pernah ikut di detail).
+  - Untuk melihat nilai utuh: `GET /merchant/:merchantId/api-key/reveal` dan `GET /merchant/:merchantId/webhook-key/reveal`.
+
+  ## Catatan `summary`
+  - `balance` — **saldo wallet akun** sesuai mode (`balance_sandbox`/`balance_production`), sumber kebenaran (sama seperti `current_balance` dashboard).
+  - `total_money_in` — total `amount` transaksi SUCCESS bertipe `TOPUP` + `PAYMENT` (top-up wallet & QRIS diterima).
+  - `total_money_out` — total `amount` transaksi SUCCESS bertipe `WITHDRAW`/`TRANSFER`.
+  - `net_flow` — `total_money_in - total_money_out` (arus transaksi merchant; bisa berbeda dari `balance` karena wallet juga menahan withdraw PENDING + biaya).
+  - `total_transactions` & `status_breakdown` — menghitung semua status (bukan hanya SUCCESS).

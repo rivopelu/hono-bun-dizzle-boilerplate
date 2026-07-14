@@ -1,0 +1,42 @@
+info:
+  name: SUBMIT_KYC
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{URL}}/kyc/submit"
+  body:
+    type: json
+    data: |-
+      {
+          "ktp_name": "John Doe",
+          "payout_channel_id": "pch_id_disini",
+          "bank_account_number": "1234567890",
+          "bank_account_holder_name": "John Doe"
+      }
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Submit KYC (User POV)
+
+  Mengirim data KYC (KTP + bank account) untuk verifikasi identitas.
+  Bank account akan otomatis tersimpan ke tabel `bank_account`.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT User)
+
+  ## Body
+  - `ktp_name` (string): Nama sesuai KTP
+  - `ktp_photo_asset_id` (string, optional): ID asset foto KTP
+  - `payout_channel_id` (string): ID payout channel (hanya BANK)
+  - `bank_account_number` (string): Nomor rekening
+  - `bank_account_holder_name` (string): Nama pemilik rekening

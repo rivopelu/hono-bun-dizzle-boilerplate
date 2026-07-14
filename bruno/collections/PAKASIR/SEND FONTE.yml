@@ -1,0 +1,63 @@
+info:
+  name: SEND FONTE
+  type: http
+  seq: 3
+
+http:
+  method: post
+  url: https://api.fonnte.com/send
+  headers:
+    - name: Authorization
+      value: WnBPWrSWcZzqPJTkorZ2
+    - name: Content-Type
+      value: multipart/form-data
+  body:
+    type: multipart-form
+    data:
+      - name: target
+        type: text
+        value: 120363405336464545@g.us
+      - name: message
+        type: text
+        value: test
+      - name: url
+        type: text
+        value: https://md.fonnte.com/images/wa-logo.png
+      - name: filename
+        type: text
+        value: wa-logo.png
+      - name: schedule
+        type: text
+        value: "0"
+      - name: typing
+        type: text
+        value: "false"
+      - name: delay
+        type: text
+        value: "1"
+      - name: countryCode
+        type: text
+        value: "62"
+      - name: file
+        type: text
+        value: ""
+        disabled: true
+      - name: location
+        type: text
+        value: -7.983908,112.621391
+      - name: followup
+        type: text
+        value: "0"
+      - name: inboxid
+        type: text
+        value: "0"
+      - name: duration
+        type: text
+        value: "0"
+  auth: inherit
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

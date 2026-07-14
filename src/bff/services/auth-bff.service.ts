@@ -11,4 +11,8 @@ export class AuthBffService {
   async signIn(input: SignInInput): Promise<AuthResult> {
     return this.authService.signIn(input)
   }
+
+  async getProfile(id: string) {
+    return this.authService.getProfile(id)
+  }
 }

@@ -1,0 +1,93 @@
+info:
+  name: CALCULATE_TOP_UP
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{URL}}/transactions/top-up/calculate"
+  headers:
+    - name: x-app-mode
+      value: "{{SANDBOX_MODE}}"
+  body:
+    type: json
+    data: |-
+      {
+        "amount": 100000
+      }
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Calculate Top-Up Fee
+
+  Menghitung rincian biaya top-up sebelum transaksi dibuat.
+
+  ## Contoh Response (200)
+  ```json
+  {
+    "success": true,
+    "message": "Fee calculation successful",
+    "response_data": {
+      "amount": 100000,
+      "fee": 700,
+      "admin_fee": 1000,
+      "other_fee": 250,
+      "discount": -250,
+      "total_fee": 1700,
+      "total": 101700,
+      "charge_type": "ADD_TO_SOURCE",
+      "fee_breakdown": [
+        {
+          "name": "Biaya Transaksi",
+          "description": "Biaya layanan untuk setiap transaksi",
+          "type": "PERCENTAGE",
+          "rate": "0.7%",
+          "amount": 700,
+          "direction": "INCREASE"
+        },
+        {
+          "name": "Biaya Admin",
+          "description": "Biaya administrasi transaksi",
+          "type": "NOMINAL",
+          "fixed_amount": 1000,
+          "amount": 1000,
+          "direction": "INCREASE"
+        },
+        {
+          "name": "Biaya Lainnya",
+          "description": "Biaya tambahan lainnya",
+          "type": "NOMINAL",
+          "fixed_amount": 250,
+          "amount": 250,
+          "direction": "INCREASE"
+        },
+        {
+          "name": "Diskon",
+          "description": "Potongan biaya transaksi 0,25%",
+          "type": "PERCENTAGE",
+          "rate": "-0.25%",
+          "amount": -250,
+          "direction": "DECREASE"
+        }
+      ]
+    }
+  }
+  ```
+
+  ## Catatan `fee_breakdown`
+  Array ini dipakai juga di response **create top-up** dan **detail transaksi** dengan bentuk yang sama, jadi frontend cukup merender satu komponen list.
+  - `type` — `NOMINAL` (nilai tetap Rupiah) atau `PERCENTAGE` (persentase dari amount).
+  - `rate` — hanya untuk `PERCENTAGE`, string siap tampil mis. `"0.7%"` / `"-0.25%"`.
+  - `fixed_amount` — hanya untuk `NOMINAL`, nilai dasar dalam Rupiah.
+  - `amount` — nominal biaya hasil hitung (Rupiah). Item `DECREASE` (mis. diskon) bernilai **negatif**.
+  - `direction` — `INCREASE` (menambah total) atau `DECREASE` (mengurangi total, mis. diskon).
+  - `total_fee` = jumlah seluruh `amount` (diskon yang negatif otomatis mengurangi).
+  - Item dengan `amount` = 0 tidak ditampilkan; hanya biaya/diskon yang benar-benar berlaku yang muncul.

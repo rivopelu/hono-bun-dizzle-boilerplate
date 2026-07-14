@@ -1,0 +1,19 @@
+info:
+  name: CHECK INVITATION
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{url}}/organization/member/invite?token=83981c711db04df9a576c5dac8830358"
+  params:
+    - name: token
+      value: 83981c711db04df9a576c5dac8830358
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

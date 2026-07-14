@@ -1,0 +1,16 @@
+info:
+  name: V1
+  type: folder
+  seq: 1
+
+request:
+  auth: none
+
+docs: |
+  # Integration API v1 (External / Integrator POV)
+
+  Semua endpoint di bawah `/api/v1/integration/*` ditujukan untuk integrator eksternal.
+  Autentikasi memakai **API key** lewat header **`x-api-key: <API_KEY>`** — bukan JWT,
+  bukan `Authorization: Bearer`. Mode (sandbox/production) **auto-detect** dari prefix API
+  key (`zp_test_` → sandbox, `zp_live_` → production), jadi header `x-app-mode` TIDAK
+  dipakai di sini.

@@ -1,5 +1,6 @@
 import type { Context } from 'hono'
-import { AppError } from './exception'
+import { ZodError } from 'zod'
+import { AppError, ValidationError } from './exception'
 import { logger } from './logger'
 
 export function errorHandler(err: Error, c: Context) {
@@ -13,6 +14,22 @@ export function errorHandler(err: Error, c: Context) {
         ...(appErr.errors ? { errors: appErr.errors } : {}),
       },
       appErr.statusCode as Parameters<typeof c.json>[1],
+    )
+  }
+
+  if (err instanceof ZodError) {
+    const errors = err.issues.map((issue) => ({
+      path: issue.path.join('.'),
+      message: issue.message,
+    }))
+    logger.warn(`${c.req.method} ${c.req.path} 422 - Validation failed`)
+    return c.json(
+      {
+        success: false,
+        message: 'Validation failed',
+        errors,
+      },
+      422,
     )
   }
 

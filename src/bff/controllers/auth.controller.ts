@@ -1,7 +1,8 @@
 import { Context } from 'hono'
-import { Controller, Post } from '../../lib/decorators'
+import { Controller, Post, Get } from '../../lib/decorators'
 import { ResponseHelper } from '../../lib/response-helper'
 import { AuthBffService } from '../services/auth-bff.service'
+import { UnauthorizedError } from '../../configs/exception'
 import { SignUpRequestSchema, SignInRequestSchema } from '../types/request/auth.request'
 
 @Controller()
@@ -19,6 +20,14 @@ export class AuthController {
   async signIn(c: Context) {
     const body = SignInRequestSchema.parse(await c.req.json())
     const result = await this.authBffService.signIn(body)
+    return c.json(ResponseHelper.data(result))
+  }
+
+  @Get('/auth/me')
+  async me(c: Context) {
+    const user = c.get('user') as { sub: string } | undefined
+    if (!user) throw new UnauthorizedError()
+    const result = await this.authBffService.getProfile(user.sub)
     return c.json(ResponseHelper.data(result))
   }
 }

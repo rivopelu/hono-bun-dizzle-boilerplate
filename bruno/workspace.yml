@@ -1,0 +1,12 @@
+opencollection: 1.0.0
+info:
+  name: "BOILERPLATE BRUNO"
+  type: workspace
+
+collections:
+  - name: "re"
+    path: "collections/re"
+
+specs:
+
+docs: ''

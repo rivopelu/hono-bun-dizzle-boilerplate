@@ -1,0 +1,25 @@
+info:
+  name: SEND_EMAIL
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{URL}}/test/send-email"
+  body:
+    type: json
+    data: |-
+      {
+          "to": "rivopelu12@gmail.com",
+          "subject": "Zelpay Email Test",
+          "html": "<p>Uji coba pengiriman email dari <strong>Zelpay Backend</strong> melalui Resend API berhasil!</p>"
+      }
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

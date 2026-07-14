@@ -15,6 +15,7 @@ export const envSchema = z.object({
   JWT_SECRET: z.string().default('dev-secret-change-in-production'),
   BCRYPT_ROUNDS: z.coerce.number().default(10),
   JWT_ISSUER: z.string().default('reel-cut'),
+  ALLOWED_ORIGINS: z.string().default('*'),
 })
 
 export function validateEnv() {

@@ -1,0 +1,52 @@
+info:
+  name: GET_ANALYTICS_OVERVIEW
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{URL}}/admin/analytics/overview"
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+  params:
+    - name: period
+      value: WEEKLY
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Admin Analytics Overview (Admin POV)
+
+  Mengembalikan gambaran umum analitik global untuk seluruh platform ZelPay berdasarkan mode aktif (`x-app-mode`), yang mencakup ringkasan transaksi dan total saldo pengguna.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT Admin)
+  - `x-app-mode: sandbox | production`
+
+  ## Query Parameters
+  - `period` (optional, default: `WEEKLY`): `DAY` | `WEEKLY` | `MONTHLY` | `YEARLY`
+
+  ## Response Example
+  ```json
+  {
+    "status": "SUCCESS",
+    "message": "Success retrieve admin analytics overview",
+    "data": {
+      "mode": "SANDBOX",
+      "period": "WEEKLY",
+      "total_transactions": "82.884",
+      "total_money_in": "Rp 1.950.600,00",
+      "total_money_out": "Rp 231.089.500,00",
+      "total_user_balance": "Rp 227.121.141,00",
+      "total_user_settlement_balance": "Rp 150.100,00"
+    }
+  }
+  ```

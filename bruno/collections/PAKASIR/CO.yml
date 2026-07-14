@@ -1,0 +1,27 @@
+info:
+  name: CO
+  type: http
+  seq: 1
+
+http:
+  method: post
+  url: https://app.pakasir.com/api/transactioncreate/qris
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "project": "zelpay-sandbox",
+          "order_id": "2",
+          "amount": 500,
+          "api_key": "vJM6ea9La5h2XHYxUF011BS5wL4Ri9tD"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

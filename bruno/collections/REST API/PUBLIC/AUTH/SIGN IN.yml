@@ -1,0 +1,37 @@
+info:
+  name: SIGN IN
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{URL}}/auth/login"
+  body:
+    type: json
+    data: |-
+      {
+          "email": "rivopelu30@gmail.com",
+          "password": "@Rivopelu123",
+          "remember_me" :true
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Pastikan response sukses dan memiliki data yang diharapkan
+        if (res.getStatus() === 200 && res.getBody().success) {
+            const accessToken = res.getBody().response_data.access_token;
+            
+            // Set token ke environment variable Bruno
+            bru.setEnvVar("TOKEN", accessToken);
+            
+            console.log("Access token berhasil disimpan ke environment!");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

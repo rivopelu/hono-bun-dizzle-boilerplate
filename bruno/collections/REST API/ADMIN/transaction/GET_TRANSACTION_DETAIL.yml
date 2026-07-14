@@ -1,0 +1,36 @@
+info:
+  name: GET_TRANSACTION_DETAIL
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{URL}}/admin/transactions/:transactionId"
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  params:
+    - name: transactionId
+      value: 8ad9f6f14b9e4a07b28a8dbc5cb4561a
+      type: path
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Admin Transaction Detail (Admin POV)
+
+  Mengembalikan detail satu transaksi untuk mode aktif (`x-app-mode`) oleh Admin, tanpa batasan kepemilikan akun.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT Admin)
+  - `x-app-mode: sandbox | production`
+
+  ## Path Parameters
+  - `transactionId`: ID unik transaksi (UUID)

@@ -1,0 +1,36 @@
+info:
+  name: GET_KYC_DETAIL
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{URL}}/admin/kyc/:id"
+  headers:
+    - name: x-app-mode
+      value: sandbox
+  params:
+    - name: id
+      value: 321FFB151B09426FB9FE06DA95CED3EB
+      type: path
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Admin KYC Detail (Admin POV)
+
+  Mengembalikan detail pengajuan KYC berdasarkan ID.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT Admin)
+  - `x-app-mode: sandbox | production`
+
+  ## Path Parameters
+  - `id`: ID KYC record

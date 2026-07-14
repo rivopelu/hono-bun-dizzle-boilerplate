@@ -66,6 +66,19 @@ export class AuthService {
     }
   }
 
+  async getProfile(id: string) {
+    const account = await this.accountService.findById(id)
+    if (!account) {
+      throw new Error('Account not found')
+    }
+    return {
+      id: account.id,
+      email: account.email,
+      name: account.name,
+      profile_picture: account.profile_picture,
+    }
+  }
+
   private async signToken(sub: string): Promise<string> {
     const secret = new TextEncoder().encode(env.JWT_SECRET)
 

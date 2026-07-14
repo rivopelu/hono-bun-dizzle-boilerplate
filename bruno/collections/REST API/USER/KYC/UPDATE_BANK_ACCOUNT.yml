@@ -1,0 +1,41 @@
+info:
+  name: UPDATE_BANK_ACCOUNT
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{URL}}/bank-accounts/:id"
+  body:
+    type: json
+    data: |-
+      {
+          "bank_account_holder_name": "Jane Doe",
+          "status": "ACTIVE"
+      }
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |
+  # Update Bank Account (User POV)
+
+  Memperbarui data bank account milik user.
+
+  ## Headers
+  - `Authorization: Bearer <TOKEN>` (JWT User)
+
+  ## Path Parameters
+  - `id`: ID bank account
+
+  ## Body (semua opsional)
+  - `payout_channel_id` (string): ID payout channel baru
+  - `bank_account_number` (string): Nomor rekening baru
+  - `bank_account_holder_name` (string): Nama pemilik baru
+  - `status` (string): `ACTIVE` atau `INACTIVE`
