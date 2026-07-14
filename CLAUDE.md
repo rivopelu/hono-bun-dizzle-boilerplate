@@ -26,8 +26,7 @@ src/
 │   ├── services/               # BFF services (bridge controllers ↔ domain)
 │   └── types/response/         # Response type definitions
 ├── configs/                    # App config (env, db, logger, errors)
-├── lib/                        # Shared utilities (base entity, string utils)
-├── libs/                       # Shared libs (decorators, response-helper)
+├── lib/                        # Shared utilities (base entity, string utils, decorators, response-helper)
 ├── middlewares/                # Hono middlewares
 └── types/request/              # Request validation schemas (Zod)
 ```

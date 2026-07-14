@@ -16,30 +16,12 @@ export function generateProfilePicture(name: string): string {
   return `https://ui-avatars.com/api/?name=${name}&background=gray`
 }
 
-export function generateVehicleName(
-  brandName: string,
-  modelName: string,
-  carTypeName: string,
-  year: number,
-): string {
-  return toTitleCase(`${brandName} ${modelName} ${carTypeName} ${year}`)
-}
-
-export function vehicleLabel(name: string, plateNumber?: string | null): string {
-  return `${name} (${plateNumber?.trim() ? plateNumber.trim() : 'tanpa plat'})`
-}
-
 export function toTitleCase(value: string): string {
   return value
     .split(/\s+/)
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
-}
-
-export function formatRupiah(value: number): string {
-  const formatted = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-  return `Rp.${formatted}`
 }
 
 export function generateReferralCode(length: number = 5): string {

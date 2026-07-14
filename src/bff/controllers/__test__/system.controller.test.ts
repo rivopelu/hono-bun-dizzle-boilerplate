@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 import { Hono } from 'hono'
 import { systemController } from '../system.controller'
-import { registerControllers } from '../../../libs/decorators'
+import { registerControllers } from '../../../lib/decorators'
 import { errorHandler } from '../../../configs/error-handler'
 
 describe('SystemController', () => {

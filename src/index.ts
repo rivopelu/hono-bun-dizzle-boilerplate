@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { secureHeaders } from 'hono/secure-headers'
-import { registerControllers } from './libs/decorators'
+import { registerControllers } from './lib/decorators'
 import { corsConfig } from './configs/cors'
 import { env } from './configs/env'
 import { requestLogger } from './middlewares/request-logger'

@@ -1,6 +1,6 @@
 import { Context } from 'hono'
-import { Controller, Get, Post } from '../../libs/decorators'
-import { ResponseHelper } from '../../libs/response-helper'
+import { Controller, Get, Post } from '../../lib/decorators'
+import { ResponseHelper } from '../../lib/response-helper'
 import {
   BadRequestError,
   UnauthorizedError,
