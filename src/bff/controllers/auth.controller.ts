@@ -3,6 +3,7 @@ import { Controller, Post, Get } from '../../lib/decorators'
 import { ResponseHelper } from '../../lib/response-helper'
 import { AuthBffService } from '../services/auth-bff.service'
 import { UnauthorizedError } from '../../configs/exception'
+import { getUser } from '../../lib/get-user'
 import { SignUpRequestSchema, SignInRequestSchema } from '../types/request/auth.request'
 
 @Controller()
@@ -25,7 +26,7 @@ export class AuthController {
 
   @Get('/auth/me')
   async me(c: Context) {
-    const user = c.get('user') as { sub: string } | undefined
+    const user = getUser(c)
     if (!user) throw new UnauthorizedError()
     const result = await this.authBffService.getProfile(user.sub)
     return c.json(ResponseHelper.data(result))
