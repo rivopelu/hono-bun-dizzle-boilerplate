@@ -1,7 +1,0 @@
-info:
-  name: MASTER_DATA
-  type: folder
-  seq: 4
-
-request:
-  auth: inherit

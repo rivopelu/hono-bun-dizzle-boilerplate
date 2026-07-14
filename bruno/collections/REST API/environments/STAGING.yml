@@ -1,8 +1,0 @@
-name: STAGING
-variables:
-  - name: URL
-    value: https://zelpay-staging-be.bitech.id/api
-  - name: TOKEN
-    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMWE5OTI3MTAwMzg0YmE5YTE1YTNkYzZjYzI2YjJmYSIsImV4cCI6MTc4MDI0ODgzNn0.LVNrsY8UYrbwccYg_fFPp23G8hUDWBrXzG_IifmbYec
-  - name: SCHEDULER_API_KEY
-    value: zelpay_scheduler_secret_2026_change_me

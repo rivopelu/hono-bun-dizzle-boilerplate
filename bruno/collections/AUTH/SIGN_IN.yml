@@ -1,0 +1,32 @@
+info:
+  name: SIGN IN
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{URL}}/auth/sign-in"
+  body:
+    type: json
+    data: |-
+      {
+          "email": "test@example.com",
+          "password": "password123"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.getStatus() === 200 && res.getBody().success) {
+            const token = res.getBody().response_data.access_token;
+            bru.setEnvVar("TOKEN", token);
+            console.log("Access token saved to environment!");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

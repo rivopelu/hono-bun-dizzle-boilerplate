@@ -4,8 +4,8 @@ info:
   type: workspace
 
 collections:
-  - name: "re"
-    path: "collections/re"
+  - name: "REST API"
+    path: "collections"
 
 specs:
 
